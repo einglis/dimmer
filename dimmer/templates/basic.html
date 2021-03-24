@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang='en'>
+<html><head>
+<title>{{ title }}</title>
+<link rel='stylesheet' href='styles.css'>
+</head>
+<body>
+<h1>Request: {{ request_path }}</h1>
+<hr>
+
+<div id='content-wrapper'>
+<div id='content'>
+<div id='nav'>
+<h2>Status</h2>
+<span id='status'>
+<p>Fish:</p>
+<p>Chips:</p>
+<p>Gravy:</p>
+</span>
+<hr>
+<h2>Control</h2>
+<button onClick='buttonPress(0)' class='dark'>Power</button>
+<button onClick='buttonPress(1)'>Rainbow 1</button>
+<button onClick='buttonPress(2)'>Rainbow 2</button>
+<button onClick='buttonPress(3)'>Snake</button>
+<br>
+<h2>Pages</h2>
+<a class='button dark' href='/'>Home</a>
+<a class='button std' href='/info.html'>Information</a>
+<a class='button std' href='/config.html'>Configuration</a>
+<a class='button std' href='/rawconfig.html'>Raw config</a>
+<a class='button std' href='/mgmt.html'>Management</a>
+</div>
+<div id='body'>
+<h2>Controls</h2>
+
+<table>
+  <tr>
+  <td class="field_name">Far end</td>
+  <td><input type="range" min="0" max="255" value="50" class="slider" id="myRange1"></td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo1" value=50 maxlength="3" size="3"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">TV</td>
+  <td><input type="range" min="0" max="255" value="50" class="slider" id="myRange2"></td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo2" value=50 maxlength="3" size="3"  placeholder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">Coffee table</td>
+  <td><input type="range" min="0" max="255" value="50" class="slider" id="myRange3"></td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo3" value=50 maxlength="3" size="3"  placeholder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">Centre</td>
+  <td><input type="range" min="0" max="255" value="50" class="slider" id="myRange4"></td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo4" value=50 maxlength="3" size="3"  placeholder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">Pool table</td>
+  <td><input type="range" min="0" max="255" value="50" class="slider" id="myRange5"></td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo5" value=50 maxlength="3" size="3"  placeholder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">Near end</td>
+  <td><input type="range" min="0" max="255" value="50" class="slider" id="myRange6"></td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo6" value=50 maxlength="3" size="3"  placeholder="0"></td>
+  </tr>
+</table>
+
+
+
+
+</div>
+
+</div>
+</div>
+
+<script src='/static/webtest.js'></script>
+
+{% for script in scripts %}
+<script>{{ script }}</script>
+{% endfor %}
+
+
+</body>
+</html>

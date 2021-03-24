@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang='en'>
+<html><head>
+<title>{{ title }}</title>
+<link rel='stylesheet' href='styles.css'>
+<script src="https://kit.fontawesome.com/47bcb241e7.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!--<h1>Request: {{ request_path }}</h1>-->
+
+<!--
+<h1>Lounge light controls</h1>
+<hr>
+-->
+
+<div id="content-wrapper">
+<div id="content">
+<div id="nav">
+<span id="status1">
+</span>
+<span id="status2">
+</span>
+
+
+<h3>Buttons</h3>
+<a class="button big std" href="http://10.23.1.111:8080/?button=1">1</a>
+<a class="button big std" href="http://10.23.1.111:8080/?button=2">2</a>
+<a class="button big std" href="http://10.23.1.111:8080/?button=3">3</a>
+<a class="button big std" href="http://10.23.1.111:8080/?button=4">4</a>
+<a class="button big dark" href="http://10.23.1.111:8080/?button=0">Off</a>
+<button class="big" onmousedown="buttonDown('U')" onmouseup="buttonUp()"onmouseleave="buttonUp()"><i class="fas fa-angle-up fa-2x"></i></button>
+<button class="big" onmousedown="buttonDown('D')" onmouseup="buttonUp()" onmouseleave="buttonUp()"><i class="fas fa-angle-down fa-2x"></i></button>
+<!--
+<button class="big" onclick="buttonPress(1)">1</button>
+<button class="big" onclick="buttonPress(2)">2</button>
+<button class="big" onclick="buttonPress(3)">3</button>
+<button class="big" onclick="buttonPress(3)">4</button>
+<button class="big dark" onclick="buttonPress(0)">Off</button>
+-->
+<hr>
+<h3>Status</h3>
+<span id="status">
+<p>Fish: <b>Yes</b></p>
+<p>Chips: <b>Small</b></p>
+<p>Gravy: <b>49</b></p>
+</span>
+<hr>
+<!--
+<br>
+<h3>Pages</h3>
+<a class="button dark" href="http://10.23.1.111:8080/">Home</a>
+<a class="button std" href="http://10.23.1.111:8080/info.html">Information</a>
+<a class="button std" href="http://10.23.1.111:8080/config.html">Configuration</a>
+<a class="button std" href="http://10.23.1.111:8080/rawconfig.html">Raw config</a>
+<a class="button std" href="http://10.23.1.111:8080/mgmt.html">Management</a>
+-->
+</div>
+<div id="body">
+<h3>Live controls</h3>
+
+<style>
+div .range_pair { position:relative; width:100%; }
+div .range_wrapper {  position:absolute; top:-12px; width:100%; }
+
+div .disabled { position: absolute; width:100%; background-color: var(--bg-colour); top:0px; height:100%;  opacity:0.5; }
+
+</style>
+
+<form action="/scene_configure" method="post">
+<table>
+  <tbody><tr>
+  <td class="field_name">Far end</td>
+  <td>
+    <div class="range_pair">
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{selected_scene.levels[0]}}" class="slider bottom" id="myRange1_ref" disabled></div>
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{live_levels[0]}}" class="slider top" id="myRange1" name="range1"></div>
+    </div>
+  </td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo1" value="50" maxlength="3" size="3" placeolder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">TV</td>
+  <td>
+    <div class="range_pair">
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{selected_scene.levels[1]}}" class="slider bottom" id="myRange2_ref" disabled></div>
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{live_levels[1]}}" class="slider top" id="myRange2" name="range2"></div>
+    </div>
+  </td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo2" value="50" maxlength="3" size="3" placeholder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">Coffee table</td>
+  <td>
+    <div class="range_pair">
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{selected_scene.levels[2]}}" class="slider bottom" id="myRange3_ref" disabled></div>
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{live_levels[2]}}" class="slider top" id="myRange3" name="range3"></div>
+    </div>
+  </td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo3" value="55" maxlength="3" size="3" placeholder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">Centre</td>
+  <td>
+    <div class="range_pair">
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{selected_scene.levels[3]}}" class="slider bottom" id="myRange4_ref" disabled></div>
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{live_levels[3]}}" class="slider top" id="myRange4" name="range4"></div>
+    </div>
+  </td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo4" value="50" maxlength="3" size="3" placeholder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">Pool table</td>
+  <td>
+    <div class="range_pair">
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{selected_scene.levels[4]}}" class="slider bottom" id="myRange5_ref" disabled></div>
+    <div class="range_wrapper"><input type="range" min="0" max="255" value="{{live_levels[4]}}" class="slider top" id="myRange5" name="range5"></div>
+    </div>
+  </td>
+  <td width="20%" style="padding-left: 1em;"><input id="demo5" value="50" maxlength="3" size="3" placeholder="0"></td>
+  </tr>
+
+  <tr>
+  <td class="field_name">Near end</td>
+<td>
+  <div class="range_pair">
+  <div class="range_wrapper"><input type="range" min="0" max="255" value="{{selected_scene.levels[5]}}" class="slider bottom" id="myRange6_ref" disabled></div>
+  <div class="range_wrapper"><input type="range" min="0" max="255" value="{{live_levels[5]}}" class="slider top" id="myRange6" name="range6"></div>
+  </div>
+</td>
+  <td width="20%" style="padding-left: 1em;">
+   <input id="demo6" value="50" maxlength="3" size="3" placeholder="0"></td>
+
+  </tr>
+
+
+</tbody></table>
+
+<h3>Scene configuration</h3>
+
+<table>
+  <tr>
+<td class="field_name">Current scene</td>
+  <td><select name="uuid" value="My new scene" placeholder="Scene name" oninput=load_ref(this.value)>
+    <option value="0" label="&lt;current light levels&gt;"/>
+    {% for s in scenes %}
+    <option value="{{ s.uuid }}" label="{{ s.name }}" {{'selected' if s.uuid == selected_scene.uuid}}/>
+    {% endfor %}
+</select>
+</td>
+</tr>
+  <tr>
+    <td></td>
+  <td><button id="set_live">Set live controls</button></td>
+  </tr>
+
+</table>
+
+<h3></h3>
+<div style="position: relative;">
+<table>
+  <tr>
+  <td class="field_name">Name</td>
+  <td><input id="scene_name" name="name" value="{{selected_scene.name}}" maxlength="40" size="40" placeholder="Scene name" {{update_disabled}}></td>
+  </tr>
+  <tr>
+    <td></td>
+  <td>
+    <input type="submit" class="button" value="Update scene" name="update_existing" id="updateButton" {{update_disabled}}></input>
+    <input type="submit" class="button red" value="Delete scene" name="delete_existing" id="deleteButton" {{update_disabled}}></input>
+  </td>
+  </tr>
+
+</table>
+<div id="update_disabler" class="{{update_disabled}}">
+</div>
+</div>
+
+
+<hr>
+<table>
+  <tr>
+  <td class="field_name"></td>
+  <td>
+
+    <input type="submit" class="button" value="Create new" name="create_new"></input>
+  </td>
+
+
+  </tr>
+
+
+
+</table>
+</form>
+
+<h3>Scene buttons</h3>
+
+<form action="/button_configure" method="post">
+
+<table>
+  <tr>
+    <td class="field_name">Button 1</td>
+    <td><select name="button1_scene">
+        <option value="0" label="&lt;no scene&gt;"/>
+        {% for s in scenes %}
+        <option value="{{ s.uuid }}" label="{{ s.name }}" {{'selected' if s.uuid == buttons[0]}}/>
+        {% endfor %}
+    </select></td>
+  </tr>
+  <tr>
+    <td class="field_name">Button 2</td>
+    <td><select name="button2_scene">
+        <option value="0" label="&lt;no scene&gt;"/>
+        {% for s in scenes %}
+        <option value="{{ s.uuid }}" label="{{ s.name }}" {{'selected' if s.uuid == buttons[1]}}/>
+        {% endfor %}
+    </select></td>
+  </tr>
+  <tr>
+    <td class="field_name">Button 3</td>
+    <td><select name="button3_scene">
+        <option value="0" label="&lt;no scene&gt;"/>
+        {% for s in scenes %}
+        <option value="{{ s.uuid }}" label="{{ s.name }}" {{'selected' if s.uuid == buttons[2]}}/>
+        {% endfor %}
+    </select></td>
+  </tr>
+  <tr>
+    <td class="field_name">Button 4</td>
+    <td><select name="button4_scene">
+        <option value="0" label="&lt;no scene&gt;"/>
+        {% for s in scenes %}
+        <option value="{{ s.uuid }}" label="{{ s.name }}" {{'selected' if s.uuid == buttons[3]}}/>
+        {% endfor %}
+    </select></td>
+  </tr>
+
+
+
+
+  <tr>
+    <td></td>
+  <td>
+    <input type="submit" class="button" value="Update buttons" name="update_assignment"></input>
+  </tr>
+
+
+</div>
+
+
+</div></div>
+
+
+
+
+<script src='/static/webtest.js'></script>
+
+{% for script in scripts %}
+<script>{{ script }}</script>
+{% endfor %}
+
+
+</body></html>
