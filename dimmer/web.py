@@ -121,17 +121,20 @@ def load_scenes():
         else:
             return d
 
-    with open("fish.json", "r") as fi:
-        fish = json.load(fi, object_hook = json_obj_hook)
-        print(fish)
-        print(fish['Scenes'])
-        print(fish['Buttons'])
-        for f in fish['Scenes']:
-            if isinstance(f, Scene):
-                all_scenes.append(f)
-        for i,f in enumerate(fish['Buttons']):
-            if i < len(buttons) and f:
-                buttons[i] = uuid.UUID(f)
+    try:
+        with open("fish.json", "r") as fi:
+            fish = json.load(fi, object_hook = json_obj_hook)
+            print(fish)
+            print(fish['Scenes'])
+            print(fish['Buttons'])
+            for f in fish['Scenes']:
+                if isinstance(f, Scene):
+                    all_scenes.append(f)
+            for i,f in enumerate(fish['Buttons']):
+                if i < len(buttons) and f:
+                    buttons[i] = uuid.UUID(f)
+    except:
+        print("failed to load config")
 
 
 def update_live():
