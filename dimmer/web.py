@@ -16,7 +16,7 @@ import uuid
 from fish4 import PeripheralThread
 from fish4 import dimmer, rako
 
-hostName = "10.23.1.111"#"localhost"
+hostName = "0.0.0.0"
 serverPort = 8080
 
 template="pie"
