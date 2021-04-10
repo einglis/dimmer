@@ -1,6 +1,6 @@
 
 const size_t num_channels = num_outputs; // airgap for now
-uint8_t current[num_channels] = { 0 };
+uint8_t current[num_channels] = { 255, 255, 255, 255, 255, 255,  };
 
 // ----------------------------------------------------------------------------
 
@@ -90,6 +90,7 @@ void poll_serial()
     while (Serial.available())
     {
         const int ch = Serial.read();
+    if(0){
         if (ch == (char)boot_char)
         {
             report_id();
@@ -164,27 +165,30 @@ void poll_serial()
             // siliently ignore
             ps = ps_idle;
         }
+    } else {
 
+         if (ch == '{')
+         {
+             buf_used = 0;
+         }
+         else if (is_hex( ch ))
+         {
+             if (buf_used < sizeof(buf))
+                 buf[buf_used++] = (uint8_t)(ch & 0xff);
+             else
+                 buf_used = buf_invalid;
+         }
+         else if (ch == '}')
+         {
+             //if (buf_used == sizeof(buf))
+                 handle_buf(buf, buf_used);
+             buf_used = buf_invalid;
+         }
+         else
+         {
+             buf_used = buf_invalid;
+         }
 
-    //     if (ch == '{')
-    //     {
-    //         buf_used = 0;
-    //     }
-    //     else if (is_hex( ch ))
-    //     {
-    //         if (buf_used < sizeof(buf))
-    //             buf[buf_used++] = (uint8_t)(ch & 0xff);
-    //         else
-    //             buf_used = buf_invalid;
-    //     }
-    //     else if (ch == '}')
-    //     {
-    //         //if (buf_used == sizeof(buf))
-    //             handle_buf(buf, buf_used);
-    //         buf_used = buf_invalid;
-    //     }
-    //     {
-    //         buf_used = buf_invalid;
-    //     }
+    }
     }
 }
