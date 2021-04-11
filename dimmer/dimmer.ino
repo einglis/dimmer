@@ -24,7 +24,7 @@ volatile uint8_t *port_d = (volatile uint8_t *)&PORTD; // debug
 
 const int num_outputs = 6;
 volatile int output_level[ num_outputs ] = { 0 };
-volatile int output_target[ num_outputs ] = { 0 };
+volatile int output_target[ num_outputs ] = { 255, 255, 255, 255, 255, 255,  };
 int output_rate[ num_outputs ] = { 0 };
 
 int phase = 0;
@@ -149,7 +149,7 @@ void loop()
     static long int last = millis();
     unsigned long now = millis();
 
-    if (now > last + 20)
+    if (now > last + 10)
     {
         off_target = false;
         for (int i = 0; i < num_outputs; ++i)
@@ -167,8 +167,8 @@ void loop()
         }
         last = now;
 
-        if (off_target)
-            report_levels();
+        //if (off_target)
+        //    report_levels();
     }
 
 
@@ -177,8 +177,8 @@ void loop()
     static unsigned long last_send_time = 0;
     if ((long)(last_send_time + heatbeat_interval - now) < 0)
     {
-        report_levels();
-        //Serial.print( (char)heartbeat_char );
+        //report_levels();
+        Serial.print( (char)heartbeat_char );
         last_send_time = now;
     }
 }
