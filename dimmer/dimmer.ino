@@ -195,7 +195,7 @@ void loop()
   static int c = 'A';
   if (*_ucsra & UDRE0) {
       *_udr = c;
-      c = (c < 'Z') ? c++ : 'A';
+      c = (c < 'Z') ? c + 1 : 'A';
   }
 
 }
