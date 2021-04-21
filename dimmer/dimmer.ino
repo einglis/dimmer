@@ -144,6 +144,10 @@ static void report_levels( void )
 
 static bool off_target = false;
 
+
+
+
+
 void loop()
 {
     static long int last = millis();
@@ -179,8 +183,21 @@ void loop()
     {
         //report_levels();
         Serial.print( (char)heartbeat_char );
+            // XXXEDD: this needs to go if the flicker-free option works
         last_send_time = now;
     }
+
+
+
+  volatile uint8_t * const _ucsra = &UCSR0A;
+  volatile uint8_t * const _udr = &UDR0;
+
+  static int c = 'A';
+  if (*_ucsra & UDRE0) {
+      *_udr = c;
+      c = (c < 'Z') ? c++ : 'A';
+  }
+
 }
 
 // ----------------------------------------------------------------------------
