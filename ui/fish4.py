@@ -103,9 +103,11 @@ class Peripheral():
     def rx( self, cmd, now ):
         return False
     def tx( self, cmd ):
+        print(f"sending cmd {cmd}")
         try:
             self.serial.write( cmd.encode() )
-        except:
+        except e:
+            print(e)
             pass
 
 
@@ -223,18 +225,6 @@ class Dimmer( Peripheral ):
     def name_match( self, target ):
         return re.match("dimmer v2.\\d", target)
 
-
-    def __thread_fn( self, dead_event ):
-        print(f"{BROWN}{self.name} loop start{END}")
-#        for i in range(24):
-        while not dead_event.is_set():
-                sleep(1)
-        print(f"{RED}WARNING: {self.name} loop end{END}")
-        dead_event.set()
-
-    def run( self, dead_event ):
-        self.thread = Thread( target=self.__thread_fn, args=(dead_event,) )
-        self.thread.start()
 
 
     def rx( self, cmd, now ):

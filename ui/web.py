@@ -138,9 +138,11 @@ def load_scenes():
 
 
 def update_live():
-    output = ''.join('%02x' % t for t in live_scene.levels)
+    munged = [ live_scene.levels[i] for i in [ 5,3,2,1,0,4 ] ]
+    output = ''.join('%02x' % t for t in munged)
+
     print("{%s}" % output)
-    dimmer.tx(output)
+    dimmer.tx("{"+output+"}")
 
 def handle_up_down( delta ):
     for i, level in enumerate( live_scene.levels ):
