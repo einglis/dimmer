@@ -23,6 +23,7 @@ volatile uint8_t *port_d = (volatile uint8_t *)&PORTD; // debug
 // ----------------------------------------------------------------------------
 
 const int num_outputs = 6;
+    // Changing this is unwise!  It's a variable as a courtesy, but is not really negotiable.
 volatile int output_level[ num_outputs ] = { 0 };
 volatile int output_target[ num_outputs ] = { 255, 255, 255, 255, 255, 255,  };
 int output_rate[ num_outputs ] = { 0 };
@@ -136,11 +137,20 @@ void setup()
 
 static void report_levels( void )
 {
-    static char buf[256];
+    static char buf[16];
+        // '<' + 2*num_outputs + '>' + \0
+        // == 1 + 2*6 + 1 + 1
+        // == 15.  So make it 16.
+
+    if (Serial.availableForWrite() < 15) // strictly speaking, we don't need space for the \0...
+        return;
 
     char* bp = &buf[0];
+    *bp++ = '<';
     for (int i = 0; i < num_outputs; i++)
-        bp += sprintf( bp, "%c%d ", i + 'A', output_level[i] );
+        bp += sprintf( bp, "%02x", output_level[i] );
+    *bp++ = '>';
+    *bp++ = '\0';
 
     Serial.println( buf );
 }
