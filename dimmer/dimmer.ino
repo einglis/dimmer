@@ -27,17 +27,20 @@ volatile int output_level[ num_outputs ] = { 0 };
 volatile int output_target[ num_outputs ] = { 255, 255, 255, 255, 255, 255,  };
 int output_rate[ num_outputs ] = { 0 };
 
-int phase = 0;
 const int phase_max = 255;
+int phase = phase_max;
 
 // ----------------------------------------------------------------------------
 
 void Zero_Crossing_Int()
 {
+  if (phase > phase_max/2)
+  {
     TCNT2 = 0; // reset timer...
     OCR2A = 140; // empirically correct to align with centre of pulse (0.3ms)
     TCCR2B |= (1 << CS21) | (1 << CS20); // ...and enable with /32 prescaler
     phase = 0;
+  }
 }
 
 #define PROFILE2
@@ -171,32 +174,25 @@ void loop()
         }
         last = now;
 
-        //if (off_target)
-        //    report_levels();
+        if (off_target)
+            report_levels();
     }
 
 
     poll_serial();
 
+
+
+
     static unsigned long last_send_time = 0;
     if ((long)(last_send_time + heatbeat_interval - now) < 0)
     {
-        //report_levels();
+        report_levels();
         Serial.print( (char)heartbeat_char );
-            // XXXEDD: this needs to go if the flicker-free option works
         last_send_time = now;
     }
 
 
-
-  volatile uint8_t * const _ucsra = &UCSR0A;
-  volatile uint8_t * const _udr = &UDR0;
-
-  static int c = 'A';
-  if (*_ucsra & UDRE0) {
-      *_udr = c;
-      c = (c < 'Z') ? c + 1 : 'A';
-  }
 
 }
 
