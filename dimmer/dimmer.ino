@@ -26,7 +26,7 @@ const int num_outputs = 6;
     // Changing this is unwise!  It's a variable as a courtesy, but is not really negotiable.
 volatile int output_level[ num_outputs ] = { 0 };
 volatile int output_target[ num_outputs ] = { 255, 255, 255, 255, 255, 255,  };
-int output_rate[ num_outputs ] = { 0 };
+int output_rate = 0;
 
 const int phase_max = 255;
 int phase = phase_max;
@@ -168,19 +168,19 @@ void loop()
     static long int last = millis();
     unsigned long now = millis();
 
-    if (now > last + 10)
+    if (now > last + 20)
     {
         off_target = false;
         for (int i = 0; i < num_outputs; ++i)
         {
             if (output_level[i] < output_target[i])
             {
-                output_level[i] = min( output_level[i] + (1 << output_rate[i] ), phase_max );
+                output_level[i] = min( output_level[i] + (int)(1 << output_rate), output_target[i] );
                 off_target = true;
             }
             else if (output_target[i] < output_level[i] )
             {
-                output_level[i] = max( output_level[i] - (1 << output_rate[i] ), 0 );
+                output_level[i] = max( output_level[i] - (int)(1 << output_rate), output_target[i] );
                 off_target = true;
             }
         }
