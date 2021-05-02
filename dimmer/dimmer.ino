@@ -103,7 +103,7 @@ ISR(TIMER2_COMPA_vect)
 static void report_id()
 {
     Serial.print( (char)boot_char );
-    Serial.println( "dimmer v2.0" );
+    Serial.println( "dimmer v2.2" );
 }
 
 void setup()
