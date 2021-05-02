@@ -1,9 +1,4 @@
 
-const size_t num_channels = num_outputs; // airgap for now
-uint8_t current[num_channels] = { 255, 255, 255, 255, 255, 255,  };
-
-// ----------------------------------------------------------------------------
-
 static void handle_buf( const uint8_t *buf, const size_t buf_len )
 {
     for (size_t i = 0; i + 1 < buf_len; i += 2)
