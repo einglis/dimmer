@@ -61,8 +61,8 @@ def find_and_open():
         id = ""
         start_time = time.monotonic();
 
+        ser.write('!'.encode()); # provoke a response
         while time.monotonic() - start_time < 2: # very impatient:
-            #ser.write('!'.encode());
             cmd = ser.read(1).decode() # XXXEDD: exception?!
             if cmd == '!':
                 id = ser.readline().decode().rstrip()
