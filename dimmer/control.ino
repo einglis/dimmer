@@ -1,10 +1,10 @@
 
-static void handle_buf( const uint8_t *buf, const size_t buf_len )
+static void handle_buf( const uint8_t *buf )
 {
-    for (size_t i = 0; i + 1 < buf_len; i += 2)
+    for (size_t i = 0; i < num_outputs; i++)
     {
-        uint8_t val = buf[i+0] * 16 + buf[i+1];
-        output_target[i/2] = val;
+        uint8_t val = buf[2*i+0] * 16 + buf[2*i+1];
+        output_target[i] = val;
     }
 }
 
@@ -49,7 +49,7 @@ void poll_serial()
 
         if (rate_flag && buf_used == sizeof(buf)) // rate_flag check technically redundant
         {
-            handle_buf(buf, buf_used);
+            handle_buf(buf);
             rate_flag = 0;
         }
     }
