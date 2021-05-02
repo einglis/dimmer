@@ -145,6 +145,8 @@ static void report_levels( void )
     if (Serial.availableForWrite() < 15) // strictly speaking, we don't need space for the \0...
         return;
 
+    // XXXEDD: static assert here that the TX buffer is actually this big...
+
     char* bp = &buf[0];
     *bp++ = '<';
     for (int i = 0; i < num_outputs; i++)
